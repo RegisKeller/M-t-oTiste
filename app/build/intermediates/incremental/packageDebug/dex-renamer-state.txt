@@ -1,0 +1,7 @@
+#Fri Nov 18 16:29:03 CET 2016
+base.0=/home/regis/Documents/Android/AndroidStudioProjects/MyWeatherApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_be5296bd13463903f06d3fde2f4d79444387d834
+renamed.1=classes2.dex
+renamed.0=classes.dex
+file.1=/home/regis/Documents/Android/AndroidStudioProjects/MyWeatherApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_ee03231c66b4b7701082da9acba392d2d4650d1d/classes.dex
+base.1=/home/regis/Documents/Android/AndroidStudioProjects/MyWeatherApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_ee03231c66b4b7701082da9acba392d2d4650d1d
+file.0=/home/regis/Documents/Android/AndroidStudioProjects/MyWeatherApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_be5296bd13463903f06d3fde2f4d79444387d834/classes.dex

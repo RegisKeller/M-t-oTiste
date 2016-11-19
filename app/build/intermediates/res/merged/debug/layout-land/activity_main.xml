@@ -1,0 +1,107 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:background="#6e7b8b">
+
+    <TextView
+        android:text="Ville"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/city_field"
+        android:textSize="36sp"
+        android:textStyle="normal|bold"
+        android:fontFamily="sans-serif"
+        android:textColor="#dfdfdf"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Pression"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pressure_field"
+        android:textSize="18sp"
+        android:textAlignment="center"
+        android:fontFamily="sans-serif"
+        android:textColor="#dfdfdf"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="Température"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/current_temperature_field"
+        android:textSize="50sp"
+        android:textAlignment="center"
+        android:fontFamily="sans-serif"
+        android:textColor="#dfdfdf"
+        android:layout_below="@+id/updated_field"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="26dp" />
+
+    <TextView
+        android:text="Hygrométrie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/humidity_field"
+        android:textSize="18sp"
+        android:textAlignment="center"
+        android:fontFamily="sans-serif"
+        android:textColor="#dfdfdf"
+        android:layout_above="@+id/pressure_field"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="DateMAJ"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/updated_field"
+        android:fontFamily="sans-serif"
+        android:textColor="#dfdfdf"
+        android:layout_below="@+id/city_field"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="11dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textAlignment="center" />
+
+    <TextView
+        android:text="Icone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/weather_icon"
+        android:textSize="70sp"
+        android:textAlignment="center"
+        android:fontFamily="sans-serif"
+        android:textColor="#dfdfdf"
+        android:layout_alignTop="@+id/current_temperature_field"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/current_temperature_field"
+        android:layout_toStartOf="@+id/current_temperature_field" />
+
+    <TextView
+        android:text="Détails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/details_field"
+        android:textAlignment="center"
+        android:fontFamily="sans-serif"
+        android:textColor="#dfdfdf"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="11dp"
+        android:layout_alignRight="@+id/weather_icon"
+        android:layout_alignEnd="@+id/weather_icon"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

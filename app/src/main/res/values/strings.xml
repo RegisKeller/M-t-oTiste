@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MétéoTiste</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_city">City</string>
+    <string name="action_share">Share</string>
+</resources>

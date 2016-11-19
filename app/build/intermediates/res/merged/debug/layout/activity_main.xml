@@ -1,0 +1,96 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:background="#6e7b8b">
+
+    <TextView
+        android:text="Ville"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/city_field"
+        android:layout_marginTop="9dp"
+        android:textSize="36sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textStyle="normal|bold"
+        android:textAlignment="center"
+        android:fontFamily="sans-serif"
+        android:textColor="#dfdfdf" />
+
+    <TextView
+        android:text="Hygrométrie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/humidity_field"
+        android:layout_marginTop="22dp"
+        android:textSize="18sp"
+        android:textAlignment="center"
+        android:layout_below="@+id/current_temperature_field"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif"
+        android:textColor="#dfdfdf" />
+
+    <TextView
+        android:text="Pression"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pressure_field"
+        android:textSize="18sp"
+        android:textAlignment="center"
+        android:layout_marginTop="23dp"
+        android:layout_below="@+id/humidity_field"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif"
+        android:textColor="#dfdfdf" />
+
+    <TextView
+        android:text="DateMAJ"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/updated_field"
+        android:textAlignment="center"
+        android:layout_below="@+id/city_field"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif"
+        android:textColor="#dfdfdf" />
+
+    <TextView
+        android:text="Température"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/current_temperature_field"
+        android:layout_marginTop="41dp"
+        android:textSize="50sp"
+        android:textAlignment="center"
+        android:layout_below="@+id/details_field"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif"
+        android:textColor="#dfdfdf" />
+
+    <TextView
+        android:text="Détails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/details_field"
+        android:layout_marginTop="7dp"
+        android:textAlignment="center"
+        android:layout_below="@+id/weather_icon"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif"
+        android:textColor="#dfdfdf" />
+
+    <TextView
+        android:text="Icone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/weather_icon"
+        android:layout_marginTop="28dp"
+        android:textSize="70sp"
+        android:textAlignment="center"
+        android:layout_below="@+id/updated_field"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif"
+        android:textColor="#dfdfdf" />
+
+</RelativeLayout>
