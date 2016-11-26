@@ -17,7 +17,9 @@ public class MainActivity extends AppCompatActivity {
 
     Typeface weatherFont;
     public final static int ChoixDeVille = 0;
+    public final static int ChoixDeLangue = 1;
     public final static String VilleChoisie = null;
+    public final static String LangueChoisie = "fr";
     public String my_weather_city;
     public String my_weather_updatedOn;
     public String my_weather_description;
@@ -25,12 +27,17 @@ public class MainActivity extends AppCompatActivity {
     public String my_weather_humidity;
     public String my_weather_pressure;
 
-    public SharedPreferences sharedPreferences;
+
     private static final String PREFS = "PREFS";
     private static final String PREFS_VILLE = "PREFS_VILLE";
+    private static final String FAVORIS_LANGUE = "FAVORIS_LANGUE";
 
     public Function.placeIdTask asyncTask = null;
-    public String myVille = "Strasbourg, FR";
+
+    public String myVille = null;
+    public String myLangue = null;
+    String humidity = "Humidity: ";
+    String pressure = "Pressure: ";
 
 
     @Override
@@ -38,8 +45,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        sharedPreferences = getBaseContext().getSharedPreferences(PREFS, MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getBaseContext().getSharedPreferences(PREFS, MODE_PRIVATE);
         myVille = sharedPreferences.getString(PREFS_VILLE, null);
+        myLangue = sharedPreferences.getString(FAVORIS_LANGUE, null);
+
+        Toast.makeText(MainActivity.this, "Toast 1 " + myVille + " " + myLangue, Toast.LENGTH_SHORT).show();
 
         weatherFont = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/weathericons-regular-webfont.ttf");
 
@@ -65,15 +75,26 @@ public class MainActivity extends AppCompatActivity {
                 updatedField.setText(weather_updatedOn);
                 detailsField.setText(weather_description);
                 currentTemperatureField.setText(weather_temperature);
-                humidity_field.setText("Humidité: "+weather_humidity);
-                pressure_field.setText("Pression: "+weather_pressure);
+
+                if(myLangue == "uk"){
+                    humidity = "Humidity: ";
+                    pressure = "Pressure: ";
+                }
+                else{
+                    humidity = "Humidité: ";
+                    pressure = "Pression: ";
+                }
+
+                humidity_field.setText(humidity + weather_humidity);
+                pressure_field.setText(pressure + weather_pressure);
+
                 weatherIcon.setText(Html.fromHtml(weather_iconText));
             }
         });
-        asyncTask.execute(myVille);
+        Toast.makeText(MainActivity.this, "Choix de langue " + myVille + " " + myLangue, Toast.LENGTH_SHORT).show();
+        asyncTask.execute(myVille, myLangue);
     }
 
-    //Affiche les icônes dans la toolbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -89,12 +110,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(cityActivity, ChoixDeVille);
                 return true;
             case R.id.action_settings:
+                Intent SettingsActivity = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivityForResult(SettingsActivity, ChoixDeLangue);
                 return true;
             case R.id.sharemail:
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("message/rfc822");
                 i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"destinataire@example.com"});
-                i.putExtra(Intent.EXTRA_SUBJECT, "MétéoTiste Report");
+                i.putExtra(Intent.EXTRA_SUBJECT, "MétéoTiste");
                 i.putExtra(Intent.EXTRA_TEXT   , "Ville : " + my_weather_city);
                 i.putExtra(Intent.EXTRA_TEXT   ,
                         "Ville : " + my_weather_city + " \n" +
@@ -106,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                          "\n Bonne journée avec MétéoTiste");
 
                 try {
-                    startActivity(Intent.createChooser(i, "Send mail..."));
+                    startActivity(Intent.createChooser(i, "Envoi du mail..."));
                 } catch (android.content.ActivityNotFoundException ex) {
                     Toast.makeText(MainActivity.this, "Aucun client mail n'est installé.", Toast.LENGTH_SHORT).show();
                 }
@@ -119,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ChoixDeVille) {
             if (resultCode == RESULT_OK) {
-                Toast.makeText(this, "Vous avez choisi la ville " + data.getStringExtra(VilleChoisie), Toast.LENGTH_SHORT).show();
                 myVille = data.getStringExtra(VilleChoisie);
                 asyncTask =new Function.placeIdTask(new Function.AsyncResponse() {
                     public void processFinish(String weather_city, String weather_description, String weather_temperature, String weather_humidity, String weather_pressure, String weather_updatedOn, String weather_iconText, String sun_rise) {
@@ -134,15 +156,67 @@ public class MainActivity extends AppCompatActivity {
                         updatedField.setText(weather_updatedOn);
                         detailsField.setText(weather_description);
                         currentTemperatureField.setText(weather_temperature);
-                        humidity_field.setText("Humidité: "+weather_humidity);
-                        pressure_field.setText("Pression: "+weather_pressure);
+
+                        if(myLangue == "uk"){
+                            humidity = "Humidity: ";
+                            pressure = "Pressure: ";
+                        }
+                        else{
+                            humidity = "Humidité: ";
+                            pressure = "Pression: ";
+                        }
+
+                        humidity_field.setText(humidity + weather_humidity);
+                        pressure_field.setText(pressure + weather_pressure);
+
+                        weatherIcon.setText(Html.fromHtml(weather_iconText));
+                        Toast.makeText(MainActivity.this, "Choix de ville " + myVille + " " + myLangue, Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+                asyncTask.execute(myVille, myLangue);
+            }
+        }
+
+        if (requestCode == ChoixDeLangue) {
+            if (resultCode == RESULT_OK) {
+                myLangue = data.getStringExtra(LangueChoisie);
+                //Toast.makeText(this, "Vous avez choisi la langue " + myLangue, Toast.LENGTH_SHORT).show();
+                asyncTask =new Function.placeIdTask(new Function.AsyncResponse() {
+                    public void processFinish(String weather_city, String weather_description, String weather_temperature, String weather_humidity, String weather_pressure, String weather_updatedOn, String weather_iconText, String sun_rise) {
+                        my_weather_city = weather_city;
+                        my_weather_updatedOn = weather_updatedOn;
+                        my_weather_description = weather_description;
+                        my_weather_temperature = weather_temperature;
+                        my_weather_humidity = weather_humidity;
+                        my_weather_pressure = weather_pressure;
+
+                        cityField.setText(weather_city);
+                        updatedField.setText(weather_updatedOn);
+                        detailsField.setText(weather_description);
+                        currentTemperatureField.setText(weather_temperature);
+
+                        if(myLangue == "uk"){
+                            humidity = "Humidity: ";
+                            pressure = "Pressure: ";
+                        }
+                        else{
+                            humidity = "Humidité: ";
+                            pressure = "Pression: ";
+                        }
+
+                        humidity_field.setText(humidity + weather_humidity);
+                        pressure_field.setText(pressure + weather_pressure);
+
                         weatherIcon.setText(Html.fromHtml(weather_iconText));
                     }
                 });
-                asyncTask.execute(myVille);
-                sharedPreferences.edit().putString(PREFS_VILLE, myVille).apply();
+                Toast.makeText(MainActivity.this, "Choix de langue " + myVille + " " + myLangue, Toast.LENGTH_SHORT).show();
+                asyncTask.execute(myVille, myLangue);
             }
         }
+
     }
 }
 

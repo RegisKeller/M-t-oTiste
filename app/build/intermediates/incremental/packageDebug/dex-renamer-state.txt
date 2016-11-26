@@ -1,4 +1,4 @@
-#Fri Nov 18 16:29:03 CET 2016
+#Sat Nov 26 17:02:53 CET 2016
 base.0=/home/regis/Documents/Android/AndroidStudioProjects/MyWeatherApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_be5296bd13463903f06d3fde2f4d79444387d834
 renamed.1=classes2.dex
 renamed.0=classes.dex

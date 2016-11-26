@@ -16,12 +16,6 @@ import java.util.Locale;
 
 public class Function {
 
-	private static final String OPEN_WEATHER_MAP_URL_City =
-			"http://api.openweathermap.org/data/2.5/weather?q=%s&units=metric";
-
-	private static final String OPEN_WEATHER_MAP_URL_latlon =
-			"http://api.openweathermap.org/data/2.5/weather?lat=%s&lon=%s&units=metric";
-
 	private static final String OPEN_WEATHER_MAP_API = "b9605b4638ea82be421dc0364cfb4802";
 
 	public static String setWeatherIcon(int actualId, long sunrise, long sunset){
@@ -71,10 +65,10 @@ public class Function {
 
 			JSONObject jsonWeather = null;
 
-			try {jsonWeather = getWeatherJSONbyLatLon(params[0], params[1]);
+			try {jsonWeather = getWeatherJSONbyLatLon(params[0], params[1], params[2]);
 			} catch (Exception e) {Log.d("Error", "Cannot process JSON results LatLon", e);}
 
-			try {jsonWeather = getWeatherJSONbyVille(params[0]);}
+			try {jsonWeather = getWeatherJSONbyVille(params[0], params[1]);}
 			catch (Exception e) {Log.d("Error", "Cannot process JSON results City", e);}
 
 			return jsonWeather;
@@ -106,16 +100,13 @@ public class Function {
 		}
 	}
 
-	public static JSONObject getWeatherJSONbyLatLon(String lat, String lon){
+	public static JSONObject getWeatherJSONbyLatLon(String lat, String lon, String lang){
 		try {
-			URL url = new URL(String.format(OPEN_WEATHER_MAP_URL_latlon, lat, lon));
-			HttpURLConnection connection =
-					(HttpURLConnection)url.openConnection();
-
+			URL url = new URL("http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "%s&units=metric&lang=" + lang);
+			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 			connection.addRequestProperty("x-api-key", OPEN_WEATHER_MAP_API);
 
-			BufferedReader reader = new BufferedReader(
-					new InputStreamReader(connection.getInputStream()));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
 			StringBuffer json = new StringBuffer(1024);
 			String tmp="";
@@ -125,8 +116,6 @@ public class Function {
 
 			JSONObject data = new JSONObject(json.toString());
 
-			// This value will be 404 if the request was not
-			// successful
 			if(data.getInt("cod") != 200){
 				return null;
 			}
@@ -137,10 +126,11 @@ public class Function {
 		}
 	}
 
-	public static JSONObject getWeatherJSONbyVille(String ville){
+	public static JSONObject getWeatherJSONbyVille(String ville, String lang){
 		try {
-			URL url = new URL(String.format(OPEN_WEATHER_MAP_URL_City, ville));
+			URL url = new URL("http://api.openweathermap.org/data/2.5/weather?q=" + ville + "&units=metric&lang=" + lang);
 			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+
 			connection.addRequestProperty("x-api-key", OPEN_WEATHER_MAP_API);
 
 			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -152,8 +142,6 @@ public class Function {
 
 			JSONObject data = new JSONObject(json.toString());
 
-			// This value will be 404 if the request was not
-			// successful
 			if(data.getInt("cod") != 200){
 				return null;
 			}

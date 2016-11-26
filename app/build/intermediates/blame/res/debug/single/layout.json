@@ -148,6 +148,10 @@
         "source": "/home/regis/Documents/Android/AndroidStudioProjects/MyWeatherApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/layout/abc_activity_chooser_view_list_item.xml"
     },
     {
+        "merged": "/home/regis/Documents/Android/AndroidStudioProjects/MyWeatherApp/app/build/intermediates/res/merged/debug/layout/activity_settings.xml",
+        "source": "/home/regis/Documents/Android/AndroidStudioProjects/MyWeatherApp/app/src/main/res/layout/activity_settings.xml"
+    },
+    {
         "merged": "/home/regis/Documents/Android/AndroidStudioProjects/MyWeatherApp/app/build/intermediates/res/merged/debug/layout/abc_list_menu_item_layout.xml",
         "source": "/home/regis/Documents/Android/AndroidStudioProjects/MyWeatherApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/layout/abc_list_menu_item_layout.xml"
     },

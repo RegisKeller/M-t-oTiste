@@ -5,40 +5,33 @@
     density="xxhdpi"
     format="8"
     plugin-version="2.2.2"
-    timestamp="12399665853271"
+    timestamp="17837435809625"
     token="-1456977909119329140"
-    verifier="COLD_SWAP_REQUESTED" >
+    verifier="FULL_BUILD_REQUESTED" >
 
     <task
         name="javac"
-        duration="106" />
+        duration="221" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="15" />
+        duration="153" />
     <task
         name="verifier"
-        duration="0" />
+        duration="9" />
 
     <artifact
-        location="/home/regis/Documents/Android/AndroidStudioProjects/MyWeatherApp/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_1/classes.dex"
-        type="DEX" />
+        location="/home/regis/Documents/Android/AndroidStudioProjects/MyWeatherApp/app/build/outputs/apk/app-debug.apk"
+        type="MAIN" />
 
     <build
-        timestamp="10027151933906"
+        timestamp="17837435809625"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="/home/regis/Documents/Android/AndroidStudioProjects/MyWeatherApp/app/build/outputs/apk/app-debug.apk"
             type="MAIN" />
-    </build>
-    <build
-        timestamp="12399665853271"
-        verifier="COLD_SWAP_REQUESTED" >
-        <artifact
-            location="/home/regis/Documents/Android/AndroidStudioProjects/MyWeatherApp/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_1/classes.dex"
-            type="DEX" />
     </build>
 
 </instant-run>

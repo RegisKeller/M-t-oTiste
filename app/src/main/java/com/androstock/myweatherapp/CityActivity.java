@@ -1,11 +1,20 @@
 package com.androstock.myweatherapp;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,19 +30,19 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CityActivity extends Activity {
+public class CityActivity extends Activity implements LocationListener {
 
     public Function.placeIdTask asyncTask = null;
     public String longi, lati;
 
     public SharedPreferences sharedPreferencesFavoris;
-    public String SavedVille;
     private static final String FAVORIS = "FAVORIS";
     private static final String FAVORIS_VILLE = "FAVORIS_VILLE";
     public Set<String> set;
 
     public int positionToRemove = 0;
-
+    private LocationManager locationManager;
+    private Location location = null;
 
     ListView ListOfFavoris;
     /** Items entered by the user is stored in this ArrayList variable */
@@ -56,38 +65,61 @@ public class CityActivity extends Activity {
         ListOfFavoris.setAdapter(adapter);
 
         sharedPreferencesFavoris = getBaseContext().getSharedPreferences(FAVORIS, MODE_PRIVATE);
-        set = sharedPreferencesFavoris.getStringSet(FAVORIS_VILLE,null);
-        if(set !=null) {
+        set = sharedPreferencesFavoris.getStringSet(FAVORIS_VILLE, null);
+        if (set != null) {
             list.addAll(set);
         }
 
-
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        String provider = locationManager.getBestProvider(criteria, false);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        locationManager.requestLocationUpdates(provider, 0, 0, this);
+        if(location == null){
+            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        }
 
 /* GPS - manu */
-        SwitchGeo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            EditText VilleInET = (EditText) findViewById(R.id.EtVille);
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked) {
-                    VilleInET.setEnabled(false);
+            SwitchGeo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                EditText VilleInET = (EditText) findViewById(R.id.EtVille);
 
-                    GPSTracker gps = new GPSTracker(CityActivity.this);
-                    if (gps.canGetLocation()) {
-                        double latitude = gps.getLatitude();
-                        double longitude = gps.getLongitude();
-                        lati = String.valueOf(latitude);
-                        longi = String.valueOf(longitude);
-                        Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if (isChecked) {
+                        VilleInET.setEnabled(false);
+
+                        double latitude = 0;
+                        double longitude = 0;
+
+                        try{
+                            latitude = location.getLatitude();
+                            longitude = location.getLongitude();
+                        }
+                        catch (android.content.ActivityNotFoundException ex) {
+                            Toast.makeText(CityActivity.this, "Echec de l'obtention de la localisation", Toast.LENGTH_SHORT).show();
+                        }
+
+                        String msg = "Latitude: " + latitude + "Longitude: " + longitude;
 
                         asyncTask = new Function.placeIdTask(new Function.AsyncResponse() {
                             public void processFinish(String weather_city, String weather_description, String weather_temperature, String weather_humidity, String weather_pressure, String weather_updatedOn, String weather_iconText, String sun_rise) {
-                                Toast.makeText(getApplicationContext(), "Your Location is : " + weather_city, Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "Votre ville est : " + weather_city, Toast.LENGTH_LONG).show();
                                 VilleInET.setText(weather_city);
                             }
                         });
-                        asyncTask.execute(lati, longi);
-                    } else {
-                        gps.showSettingsAlert();
-                    }
+                        lati = String.valueOf(latitude);
+                        longi = String.valueOf(longitude);
+
+                        asyncTask.execute(lati, longi, "fr");
+
                 } else {
                     VilleInET.setEnabled(true);
                 }
@@ -123,15 +155,14 @@ public class CityActivity extends Activity {
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             @Override public void onClick(DialogInterface dialog, int which) {
                                 list.remove(positionToRemove);
-                                adapter.notifyDataSetChanged();                            }
+                                adapter.notifyDataSetChanged();
+                            }
                         })
                         .create()
                         .show();
                 return false;
             }
         });
-
-
 
 /* Bouton add */
         buttonAdd.setOnClickListener(new View.OnClickListener() {
@@ -164,6 +195,21 @@ public class CityActivity extends Activity {
                 finish();
             }
         });
+    }
+
+    public void onLocationChanged(Location location) {
+    }
+
+    public void onProviderDisabled(String provider) {
+        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        startActivity(intent);
+    }
+
+    public void onProviderEnabled(String provider) {
+    }
+
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        // TODO Auto-generated method stub
     }
 }
 
